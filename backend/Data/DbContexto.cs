@@ -10,7 +10,7 @@ namespace backend.Data
         {
         }
 
-        public DbSet<Tarefa> Tarefas { get; set; }
+        public DbSet<Tarefa> Tarefas { get; set; } = default!;
 
     }
 }
