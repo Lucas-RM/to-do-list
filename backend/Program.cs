@@ -1,3 +1,7 @@
+using backend.Data;
+using Microsoft.EntityFrameworkCore;
+using System;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +11,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<DbContexto>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("SqlServer")
+    ));
+
 var app = builder.Build();
+
+app.MapGet("/", () => "Hello World!");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
