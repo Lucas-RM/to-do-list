@@ -1,5 +1,7 @@
 # Documentação da API REST To-Do List
 
+Desenvolvimento de uma aplicação (API REST) de lista de tarefas (To-Do List). A aplicação permite ao usuário criar uma nova tarefa, visualizar todas as tarefas e visualizar uma tarefa específica.
+
 ## **1º - Processo de Instalação e Configuração da Aplicação**
 
 ### Pré-requisitos
@@ -11,7 +13,13 @@
 
 ---
 
-### Passos para Instalação
+### Passo a Passo para Instalação e Configuração
+ 
+#### Clonar o Repositório
+> Clone o repositório para o seu ambiente local:
+```bash
+git clone https://github.com/Lucas-RM/to-do-list.git
+```
 
 #### Backend (C# - API REST)
 1. Navegue até a pasta `/backend` no terminal.
@@ -99,12 +107,12 @@
 **Descrição:** Adiciona uma nova tarefa à lista.
 - **URL:** `/tarefas/criar`
 - **Método:** POST
-- **Corpo da Requisição:**
+- **Corpo da Requisição (**Body > raw (json)**):**
   ```json
   {
       "titulo": "string",
       "descricao": "string",
-      "status": "int" (0 = Pendente, 1 = Em Andamento, 3 = Concluida)
+      "status": "int" (0 = Pendente, 1 = Em Andamento, 2 = Concluida)
   }
   ```
 - **Resposta:**
@@ -161,3 +169,31 @@
     - Código 404 (Not Found): Tarefa não encontrada.
     - Código 500 (Internal Server Error).
 
+---
+
+## **3º - Arquivos do Postman**
+
+> Os arquivos do Postman estão disponíveis em [Postman Collection](https://github.com/Lucas-RM/to-do-list/tree/main/Postman%20Collection).
+
+### Conteúdo da Pasta
+
+> A pasta "Postman Collection" contém:
+
+- **Coleções do Postman:** Arquivos `.json` que incluem todas as requisições configuradas para os endpoints da API.
+    
+- **Documentação de Requisições:** Parâmetros, corpos de requisição e exemplos de respostas para facilitar o teste e a validação da API.
+    
+
+### Como Usar
+
+1. Baixe os arquivos da pasta "Postman Collection".
+    
+2. Importe os arquivos no Postman:
+    
+    - Abra o Postman.
+        
+    - Clique em "Import" no canto superior esquerdo.
+        
+    - Selecione o arquivo `.json` baixado.
+        
+3. Utilize as requisições configuradas para testar a API com facilidade.
