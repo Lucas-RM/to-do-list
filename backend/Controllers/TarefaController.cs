@@ -40,7 +40,7 @@ namespace backend.Controllers
             try
             {
                 await _servico.CriarAsync(tarefaDto);
-                return Ok(new { mensagem = "Tarefa criada com sucesso!" });
+                return StatusCode(201, new { mensagem = "Tarefa criada com sucesso!" });
             }
             catch (Exception ex)
             {
