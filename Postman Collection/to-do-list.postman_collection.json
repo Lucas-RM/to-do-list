@@ -1,0 +1,83 @@
+{
+	"info": {
+		"_postman_id": "d9572d14-763f-4c0f-bf16-15759babd612",
+		"name": "to-do-list",
+		"description": "Desenvolvimento de uma aplicação (API REST) de lista de tarefas (To-Do List). A aplicação permite ao usuário criar uma nova tarefa, visualizar todas as tarefas e visualizar uma tarefa específica.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20111730"
+	},
+	"item": [
+		{
+			"name": "https://localhost:7120/tarefas/criar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"titulo\": \"Fazer exercícios\",\r\n    \"descricao\": \"Fazer 30 minutos de exercícios\",\r\n    \"status\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7120/tarefas/criar",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7120",
+					"path": [
+						"tarefas",
+						"criar"
+					]
+				},
+				"description": "- **Método HTTP:** **`POST`**\n    \n- **Endpoint:** **`/tarefas/criar`**\n    \n- **Descrição:** Adiciona uma nova tarefa à lista.\n    \n- **Corpo da Requisição (****`Body > raw (json)`****):**\n    \n\n``` json\n{\n    \"titulo\": \"Fazer exercícios\",\n    \"descricao\": \"Fazer 30 minutos de exercícios\",\n    \"status\": 0 (0 = Pendente, 1 = Em Andamento, 2 = Concluida)\n}\n\n ```\n\n- **Resposta de Sucesso (JSON):**\n    \n    - **Sucesso:** Código 201 (Created)\n        \n\n``` json\n{\n    \"id\": \"int\",\n    \"titulo\": \"string\",\n    \"descricao\": \"string\",\n    \"status\": \"int\" (0 = Pendente, 1 = Em Andamento, 2 = Concluida)\n}\n\n ```\n\n- **Erro:** Código 400 (Bad Request)"
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:7120/tarefas/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7120/tarefas/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7120",
+					"path": [
+						"tarefas",
+						""
+					]
+				},
+				"description": "- **Método HTTP:** **`GET`**\n    \n- **Endpoint:** **`/tarefas`**\n    \n- **Descrição:** Retorna uma lista de todas as tarefas.\n    \n- **Resposta de Sucesso (JSON):**\n    \n    - **Sucesso:** Código 200 (OK)\n        \n\n``` json\n[\n  {\n    \"id\": 1,\n    \"titulo\": \"Comprar leite\",\n    \"descricao\": \"Comprar leite no mercado\",\n    \"concluida\": false\n  },\n  {\n    \"id\": 2,\n    \"titulo\": \"Fazer exercícios\",\n    \"descricao\": \"Fazer 30 minutos de exercícios\",\n    \"concluida\": true\n  }\n]\n\n ```\n\n- **Erro:** Código 500 (Internal Server Error)"
+			},
+			"response": []
+		},
+		{
+			"name": "https://localhost:7120/tarefas/ :id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7120/tarefas/1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7120",
+					"path": [
+						"tarefas",
+						"1"
+					]
+				},
+				"description": "- **Método HTTP:** **`GET`**\n    \n- **Endpoint:** `/tarefas/:id`\n    \n- **Descrição:** Retorna os detalhes de uma tarefa específica com base no ID fornecido.\n    \n- **Parâmetro de URL**:\n    \n    - `id`: ID da tarefa que deseja visualizar.\n        \n- **Resposta de Sucesso (JSON):**\n    \n    - **Sucesso:** Código 200 (OK)\n        \n\n``` json\n{\n  \"id\": 1,\n  \"titulo\": \"Comprar leite\",\n  \"descricao\": \"Comprar leite no mercado\",\n  \"concluida\": false\n}\n\n ```\n\n- **Erro:**\n    \n    - Código 404 (Not Found): Tarefa não encontrada.\n        \n    - Código 500 (Internal Server Error)."
+			},
+			"response": []
+		}
+	]
+}
