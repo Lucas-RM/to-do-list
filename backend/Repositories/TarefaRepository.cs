@@ -1,6 +1,7 @@
 ﻿using backend.Data;
 using backend.Models;
 using backend.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories
 {
@@ -11,11 +12,18 @@ namespace backend.Repositories
         public TarefaRepository(DbContexto contexto)
         {
             _contexto = contexto;
+        }        
+
+        public async Task<IEnumerable<Tarefa>> TodasAsync()
+        {
+            return await _contexto.Tarefas.ToListAsync();
         }
 
-        public IEnumerable<Tarefa> Todas()
+        public async Task<Tarefa> CriarAsync(Tarefa tarefa)
         {
-            return _contexto.Tarefas.ToList();
+            _contexto.Tarefas.Add(tarefa);
+            await _contexto.SaveChangesAsync();
+            return tarefa;
         }
     }
 }

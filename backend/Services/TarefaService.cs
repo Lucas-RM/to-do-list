@@ -1,4 +1,6 @@
 ﻿using backend.DTOs;
+using backend.Enums;
+using backend.Models;
 using backend.Repositories.Interfaces;
 using backend.Services.Interfaces;
 
@@ -13,15 +15,38 @@ namespace backend.Services
             _repositorio = repositorio;
         }
 
-        public IEnumerable<TarefaDTO> Todas()
+        public async Task<IEnumerable<TarefaDTO>> TodasAsync()
         {
-            return _repositorio.Todas().Select(tarefa => new TarefaDTO
+            var tarefas = await _repositorio.TodasAsync();
+
+            return tarefas.Select(tarefa => new TarefaDTO
             {
                 Id = tarefa.Id,
                 Titulo = tarefa.Titulo,
                 Descricao = tarefa.Descricao,
                 Status = tarefa.Status
             });
+        }
+       
+        public async Task<TarefaDTO> CriarAsync(TarefaDTO tarefaDto)
+        {
+            var tarefa = new Tarefa
+            {
+                Titulo = tarefaDto.Titulo,
+                Descricao = tarefaDto.Descricao,
+                Status = tarefaDto.Status
+            };
+
+            var novaTarefa = await _repositorio.CriarAsync(tarefa);
+
+            var novaTarefaDTO = new TarefaDTO
+            {
+                Id = novaTarefa.Id,
+                Descricao = novaTarefa.Descricao,
+                Status = novaTarefa.Status
+            };
+
+            return novaTarefaDTO;
         }
     }
 }

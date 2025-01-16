@@ -23,9 +23,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+// Política CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:8080") // URL do frontend
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
-app.MapGet("/", () => "Hello World!");
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -34,7 +43,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseRouting();
-app.UseEndpoints(endpoints => endpoints.MapControllers());
+app.UseHttpsRedirection();
+app.UseCors("PermitirFrontend");
+app.UseAuthorization();
+app.MapControllers();
 
 app.Run();

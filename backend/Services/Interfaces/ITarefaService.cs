@@ -4,6 +4,7 @@ namespace backend.Services.Interfaces
 {
     public interface ITarefaService
     {
-        IEnumerable<TarefaDTO> Todas();
+        Task<IEnumerable<TarefaDTO>> TodasAsync();
+        Task<TarefaDTO> CriarAsync(TarefaDTO tarefa);
     }
 }

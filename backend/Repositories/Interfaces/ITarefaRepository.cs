@@ -4,6 +4,7 @@ namespace backend.Repositories.Interfaces
 {
     public interface ITarefaRepository
     {
-        IEnumerable<Tarefa> Todas();
+        Task<IEnumerable<Tarefa>> TodasAsync();
+        Task<Tarefa> CriarAsync(Tarefa tarefa);
     }
 }
