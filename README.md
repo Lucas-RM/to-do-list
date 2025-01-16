@@ -33,7 +33,16 @@
 		}
 		```
 
-4. Configure a URL da Política CORS em `Program.cs` para a URL do frontend:
+4. Em `Program.cs` configure o banco de dados:
+   ```csharp
+   builder.Services.AddDbContext<DbContexto>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("SqlServer")
+    )); 
+   ```
+   - Verifique se o nome da string de conexão é o mesmo que está em `appsettings.json` ? "DefaultConnection" ou "SqlServer".
+
+5. Configure a URL da Política CORS em `Program.cs` para a URL do frontend:
 	```csharp
 	policy.WithOrigins("http://localhost:8080") // URL do frontend
 	      .AllowAnyHeader()
@@ -41,12 +50,12 @@
 	```
 	- Verifique se a URL `http://localhost:8080` é a mesma do frontend.
    
-5. Execute as migrações para criar o banco de dados:
+6. Execute as migrações para criar o banco de dados:
    ```bash
    dotnet ef database update
    ```
    
-6. Inicie o servidor backend:
+7. Inicie o servidor backend:
    ```bash
    dotnet run
    ```
