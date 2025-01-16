@@ -40,7 +40,7 @@
         builder.Configuration.GetConnectionString("SqlServer")
     )); 
    ```
-   - Verifique se o nome da string de conexão é o mesmo que está em `appsettings.json` ? "DefaultConnection" ou "SqlServer".
+   - Verifique se o nome da string de conexão é o mesmo que está em `appsettings.json` -> "DefaultConnection" ou "SqlServer".
 
 5. Configure a URL da Política CORS em `Program.cs` para a URL do frontend:
 	```csharp
@@ -59,7 +59,7 @@
    ```bash
    dotnet run
    ```
-   - O servidor será iniciado na URL `https://localhost:7120` ? *Verifique se a porta (`7120`) é a correta*.
+   - O servidor será iniciado na URL `https://localhost:7120` -> *Verifique se a porta (`7120`) é a correta*.
 
 ---
 
@@ -85,7 +85,7 @@
    ```bash
    npm run serve
    ```
-   - O frontend será iniciado na URL padrão `http://localhost:8080` ? *Verifique se a porta (`8080`) é a correta*.
+   - O frontend será iniciado na URL padrão `http://localhost:8080` -> *Verifique se a porta (`8080`) é a correta*.
 
 ### Testando a Aplicação
 1. Abra o navegador e acesse o frontend em `http://localhost:8080`.
