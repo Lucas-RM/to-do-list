@@ -1,9 +1,7 @@
 ﻿using backend.DTOs;
-using backend.Enums;
-using backend.Models;
+using backend.Exceptions;
 using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
 
 namespace backend.Controllers
 {
@@ -11,7 +9,7 @@ namespace backend.Controllers
     [Route("tarefas")]
     public class TarefaController : ControllerBase
     {
-        private readonly ITarefaService _servico;       
+        private readonly ITarefaService _servico;
 
         public TarefaController(ITarefaService servico)
         {
@@ -20,14 +18,14 @@ namespace backend.Controllers
 
         // Método para listar todas as tarefas
         [HttpGet]
-        public async Task<IActionResult> Todas()
+        public async Task<ActionResult<TarefaDTO>> Todas()
         {
             return Ok(await _servico.TodasAsync());
         }
 
         // Método para criar uma nova tarefa
         [HttpPost("criar")]
-        public async Task<IActionResult> Criar([FromBody] TarefaDTO tarefaDto)
+        public async Task<ActionResult<TarefaDTO>> Criar([FromBody] TarefaDTO tarefaDto)
         {
             if (!ModelState.IsValid)
             {
@@ -37,7 +35,7 @@ namespace backend.Controllers
                                         .Select(e => e.ErrorMessage)
                                         .ToList();
                 return BadRequest(new { Mensagem = "Erro na validação dos dados.", Erros = erros });
-            }            
+            }
 
             try
             {
@@ -47,6 +45,32 @@ namespace backend.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { mensagem = "Erro ao criar a tarefa.", erro = ex.Message });
+            }
+        }
+
+        // Método para buscar uma tarefa por id
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TarefaDTO>> BuscarPorId(int id)
+        {
+            try
+            {
+                var tarefa = await _servico.BuscarPorIdAsync(id);
+                return Ok(tarefa);
+            }
+            catch (NotFoundException ex)
+            {
+                // Retorna 404 para tarefas não encontradas
+                return NotFound(new { mensagem = ex.Message });
+            }
+            catch (BadRequestException ex)
+            {
+                // Retorna 400 para erros de requisição inválida
+                return BadRequest(new { mensagem = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                // Retorna 500 para erros internos
+                return StatusCode(500, new { mensagem = "Erro interno no servidor.", erro = ex.Message });
             }
         }
     }

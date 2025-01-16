@@ -6,5 +6,6 @@ namespace backend.Repositories.Interfaces
     {
         Task<IEnumerable<Tarefa>> TodasAsync();
         Task<Tarefa> CriarAsync(Tarefa tarefa);
+        Task<Tarefa> BuscarPorIdAsync(int id);
     }
 }

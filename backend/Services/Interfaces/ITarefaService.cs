@@ -1,4 +1,5 @@
 ﻿using backend.DTOs;
+using backend.Models;
 
 namespace backend.Services.Interfaces
 {
@@ -6,5 +7,6 @@ namespace backend.Services.Interfaces
     {
         Task<IEnumerable<TarefaDTO>> TodasAsync();
         Task<TarefaDTO> CriarAsync(TarefaDTO tarefa);
+        Task<TarefaDTO> BuscarPorIdAsync(int id);
     }
 }

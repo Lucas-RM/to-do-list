@@ -7,14 +7,17 @@
         </b-row>
 
         <b-col cols="12" class="d-flex">
-            <b-button variant="primary" 
-                      size="md" 
-                      @click="voltarParaHome" 
+            <b-button variant="primary"
+                      size="md"
+                      @click="voltarParaHome"
                       class="mr-2">
                 Voltar
             </b-button>
 
-            <b-button variant="success" @click="abrirFormulario">Criar Nova Tarefa</b-button>
+            <b-button variant="success"
+                      @click="abrirFormulario">
+                Criar Nova Tarefa
+            </b-button>
         </b-col>
 
         <!-- Tabela de Tarefas -->
@@ -37,6 +40,13 @@
                     <template #cell(descricao)="data">
                         {{ mostrarMetadeTexto(data.item.descricao) }}
                     </template>
+                    <template #cell(acoes)="data">
+                        <b-button size="sm"
+                                  variant="info"
+                                  @click="abrirModalTarefaPorId(data.item.id)">
+                            Abrir Tarefa
+                        </b-button>
+                    </template>
                 </b-table>
 
                 <!-- Paginação -->
@@ -46,19 +56,20 @@
                               align="center"></b-pagination>
             </b-col>
         </b-row>
-
-        <TarefaForm v-if="mostrarFormulario" :exibirFormulario="mostrarFormulario" />
+        <TarefaPorId v-if="isModalVisible" />
     </b-container>
 </template>
 
 <script>
+    import { mapState } from "vuex"
     import api from "@/services/api"
+    import TarefaPorId from "@/components/TarefaPorIdComponent"
 
     export default {
         name: "TarefasPage",
+        components: { TarefaPorId },
         data() {
             return {
-                mostrarFormulario: false,
                 paginaAtual: 1, // Página atual
                 itensPorPagina: 8, // Quantidade de itens por página
                 tarefas: [],
@@ -67,10 +78,13 @@
                     { key: "titulo", label: "Titulo" },
                     { key: "descricao", label: "Descricao" },
                     { key: "status", label: "Status" },
+                    { key: "acoes", label: "Acoes", sortable: false },
                 ],
             }
         },
         computed: {
+            ...mapState(["isModalVisible"]),
+
             // Calcula as tarefas que devem ser exibidas na página atual
             tarefasPaginas() {
                 const inicio = (this.paginaAtual - 1) * this.itensPorPagina
@@ -83,8 +97,35 @@
                 this.$router.push('/')
             },
             abrirFormulario() {
-                this.mostrarFormulario = true
                 this.$router.push("/tarefas/criar")
+            },
+            async abrirModalTarefaPorId(id) {                       
+                try {
+                    const resp = await api.get(`/tarefas/${id}`)
+                    
+                    this.$store.commit("setTarefa", resp.data)
+                    this.$router.push(`/tarefas/${id}`)
+                } catch (error) {
+                    if (error.response && error.response.status === 404) {
+                        this.$bvToast.toast("Tarefa não encontrada.", {
+                            title: "Erro",
+                            variant: "danger",
+                            solid: true,
+                        })
+
+                        this.$router.push("/tarefas")
+                    } else {
+                        this.$bvToast.toast("Erro ao carregar tarefa.", {
+                            title: "Erro",
+                            variant: "danger",
+                            solid: true,
+                        })
+
+                        setTimeout(() => {
+                            this.$router.push("/tarefas")
+                        }, 1500)
+                    }
+                }
             },
             async carregarTarefas() {
                 try {
@@ -132,7 +173,7 @@
         },
         created() {
             this.carregarTarefas()
-        },
+        }        
     }
 </script>
 

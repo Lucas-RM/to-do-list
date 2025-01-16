@@ -15,8 +15,7 @@
             </b-col>
         </b-row>
 
-        <TarefaForm v-if="mostrarFormulario"
-                    :value="mostrarFormulario" />
+        <TarefaForm v-if="mostrarFormulario" />
     </b-container>
 </template>
 
@@ -42,12 +41,8 @@
                 this.$router.push("/tarefas")
             },
             abrirFormulario() {
-                this.mostrarFormulario = true
                 this.$router.push("/tarefas/criar")
-            },
-            fecharFormulario() {
-                this.mostrarFormulario = false
-            }       
+            }      
         },
     }
 </script>

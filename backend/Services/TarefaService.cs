@@ -1,5 +1,5 @@
 ﻿using backend.DTOs;
-using backend.Enums;
+using backend.Exceptions;
 using backend.Models;
 using backend.Repositories.Interfaces;
 using backend.Services.Interfaces;
@@ -27,7 +27,7 @@ namespace backend.Services
                 Status = tarefa.Status
             });
         }
-       
+
         public async Task<TarefaDTO> CriarAsync(TarefaDTO tarefaDto)
         {
             var tarefa = new Tarefa
@@ -47,6 +47,26 @@ namespace backend.Services
             };
 
             return novaTarefaDTO;
+        }
+
+        public async Task<TarefaDTO> BuscarPorIdAsync(int id)
+        {
+            var tarefa = await _repositorio.BuscarPorIdAsync(id);
+
+            if (tarefa == null)
+            {
+                throw new NotFoundException("Tarefa não encontrada.");
+            }
+
+            var tarefaDTO = new TarefaDTO
+            {
+                Id = tarefa.Id,
+                Titulo = tarefa.Titulo,
+                Descricao = tarefa.Descricao,
+                Status = tarefa.Status
+            };
+
+            return tarefaDTO;
         }
     }
 }

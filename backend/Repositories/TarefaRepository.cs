@@ -12,7 +12,7 @@ namespace backend.Repositories
         public TarefaRepository(DbContexto contexto)
         {
             _contexto = contexto;
-        }        
+        }
 
         public async Task<IEnumerable<Tarefa>> TodasAsync()
         {
@@ -21,9 +21,14 @@ namespace backend.Repositories
 
         public async Task<Tarefa> CriarAsync(Tarefa tarefa)
         {
-            _contexto.Tarefas.Add(tarefa);
+            await _contexto.Tarefas.AddAsync(tarefa);
             await _contexto.SaveChangesAsync();
             return tarefa;
+        }
+
+        public async Task<Tarefa> BuscarPorIdAsync(int id)
+        {
+            return await _contexto.Tarefas.FindAsync(id);
         }
     }
 }

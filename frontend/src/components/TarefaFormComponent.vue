@@ -1,5 +1,8 @@
 <template>
-    <b-modal title="Criar Nova Tarefa" :visible="exibirFormulario" @hidden="fecharFormulario" hide-footer>
+    <b-modal :visible="mostrarFormulario"
+             @hidden="fecharFormulario"
+             title="Criar Nova Tarefa"
+             hide-footer>
         <b-form @submit.prevent="criarTarefa">
             <b-container>
                 <b-row>
@@ -31,12 +34,12 @@
                         <b-form-group label="Status" label-for="tarefa-status">
                             <b-form-select id="tarefa-status"
                                            v-model="tarefa.status"
-                                           :options="statusOptions">
+                                           :options="opcoesStatus">
                             </b-form-select>
                         </b-form-group>
                     </b-col>
 
-                    <!-- Botões de Salvar e Cancelar -->
+                    <!-- Botões de Criar e Cancelar -->
                     <b-col cols="12" class="d-flex">
                         <b-button type="submit"
                                   variant="success"
@@ -61,12 +64,6 @@
 
     export default {
         name: "TarefaForm",
-        props: {
-            exibirFormulario: {
-                type: Boolean,
-                default: true,
-            }
-        },
         data() {
             return {
                 mostrarFormulario: false,
@@ -75,11 +72,11 @@
                     descricao: "",
                     status: 0,
                 },
-                statusOptions: [
+                opcoesStatus: [
                     { value: 0, text: "Pendente" },
                     { value: 1, text: "Em Andamento" },
                     { value: 2, text: "Concluida" },
-                ],
+                ]
             }
         },
         methods: {
@@ -103,8 +100,7 @@
 
                         // Iterar sobre as propriedades dos erros
                         Object.keys(erros).forEach((campo) => {
-                            erros[campo].forEach((mensagem) => {
-                                // Exibir cada mensagem de erro
+                            erros[campo].forEach((mensagem) => {                               
                                 this.$bvToast.toast(mensagem, {
                                     title: "Erro",
                                     variant: "danger",
@@ -122,9 +118,13 @@
                 }
             },
             fecharFormulario() {
+                this.mostrarFormulario = false
                 this.$router.go(-1)
             }
         },
+        mounted() {
+            this.mostrarFormulario = true
+        }
     }</script>
 
 <style>

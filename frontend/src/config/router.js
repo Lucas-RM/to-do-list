@@ -4,6 +4,7 @@ import VueRouter from "vue-router"
 import Home from "@/pages/HomePage"
 import TarefasPage from "@/pages/TarefasPage"
 import TarefaForm from "@/components/TarefaFormComponent"
+import TarefaPorId from "@/components/TarefaPorIdComponent"
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
         name: "tarefaForm",
         path: "/tarefas/criar",
         component: TarefaForm
+    },
+    {
+        name: "tarefaPorId",
+        path: "/tarefas/:id",
+        component: TarefaPorId
     },
 ]
 
